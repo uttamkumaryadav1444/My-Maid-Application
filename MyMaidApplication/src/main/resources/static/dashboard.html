@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - My Maid</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        .stats-card {
+            transition: transform 0.2s ease;
+        }
+        .stats-card:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+<!-- Sidebar for Mobile -->
+<div id="mobileSidebar" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden">
+    <div class="absolute right-0 top-0 h-full w-64 bg-white shadow-lg">
+        <!-- Mobile sidebar content would go here -->
+    </div>
+</div>
+
+<div class="flex h-screen">
+    <!-- Sidebar -->
+    <div class="sidebar w-64 bg-white shadow-lg hidden md:block">
+        <div class="p-6 border-b">
+            <div class="flex items-center">
+                <i class="fas fa-broom text-blue-600 text-2xl mr-3"></i>
+                <span class="text-xl font-bold">My Maid</span>
+            </div>
+            <div class="mt-4">
+                <p class="font-medium">Welcome back,</p>
+                <p id="userName" class="text-blue-600 font-bold">User</p>
+            </div>
+        </div>
+
+        <nav class="p-4">
+            <a href="dashboard.html" class="flex items-center px-4 py-3 bg-blue-50 text-blue-600 rounded-lg mb-2">
+                <i class="fas fa-tachometer-alt mr-3"></i>
+                Dashboard
+            </a>
+            <a href="book-service.html" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg mb-2">
+                <i class="fas fa-calendar-plus mr-3"></i>
+                Book Service
+            </a>
+            <a href="my-bookings.html" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg mb-2">
+                <i class="fas fa-list-alt mr-3"></i>
+                My Bookings
+            </a>
+            <a href="profile.html" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg mb-2">
+                <i class="fas fa-user-circle mr-3"></i>
+                Profile
+            </a>
+            <a href="payments.html" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg mb-2">
+                <i class="fas fa-credit-card mr-3"></i>
+                Payments
+            </a>
+            <a href="support.html" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg mb-2">
+                <i class="fas fa-headset mr-3"></i>
+                Support
+            </a>
+            <div class="mt-8 pt-4 border-t">
+                <a href="index.html" class="flex items-center px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg">
+                    <i class="fas fa-sign-out-alt mr-3"></i>
+                    Logout
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 overflow-auto">
+        <!-- Top Bar -->
+        <header class="bg-white shadow-sm py-4 px-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center md:hidden">
+                    <button id="menuToggle" class="text-gray-600 mr-4">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <i class="fas fa-broom text-blue-600 text-2xl mr-2"></i>
+                    <span class="font-bold">My Maid</span>
+                </div>
+
+                <div class="hidden md:block">
+                    <h1 class="text-2xl font-bold text-gray-800">Dashboard</h1>
+                    <p class="text-gray-600">Welcome to your service dashboard</p>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <i class="fas fa-bell text-gray-600 text-xl"></i>
+                        <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
+                    </div>
+                    <div class="hidden md:flex items-center">
+                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2">
+                            <i class="fas fa-user text-blue-600"></i>
+                        </div>
+                        <span id="topUserName" class="font-medium">User</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Dashboard Content -->
+        <main class="p-6">
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="stats-card bg-white rounded-xl shadow p-6">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-calendar-check text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-600 text-sm">Total Bookings</p>
+                            <p class="text-2xl font-bold" id="totalBookings">12</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-card bg-white rounded-xl shadow p-6">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-600 text-sm">Completed</p>
+                            <p class="text-2xl font-bold" id="completedBookings">8</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-card bg-white rounded-xl shadow p-6">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-clock text-yellow-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-600 text-sm">Pending</p>
+                            <p class="text-2xl font-bold" id="pendingBookings">3</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-card bg-white rounded-xl shadow p-6">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-rupee-sign text-purple-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-600 text-sm">Total Spent</p>
+                            <p class="text-2xl font-bold">₹<span id="totalSpent">4,500</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="mb-8">
+                <h2 class="text-xl font-bold mb-4">Quick Actions</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <a href="book-service.html" class="bg-blue-600 text-white rounded-lg p-6 text-center hover:bg-blue-700 transition">
+                        <i class="fas fa-plus text-2xl mb-2"></i>
+                        <p class="font-medium">Book Service</p>
+                    </a>
+                    <a href="my-bookings.html" class="bg-white border rounded-lg p-6 text-center hover:bg-gray-50 transition">
+                        <i class="fas fa-list text-blue-600 text-2xl mb-2"></i>
+                        <p class="font-medium">View Bookings</p>
+                    </a>
+                    <a href="profile.html" class="bg-white border rounded-lg p-6 text-center hover:bg-gray-50 transition">
+                        <i class="fas fa-user-edit text-green-600 text-2xl mb-2"></i>
+                        <p class="font-medium">Edit Profile</p>
+                    </a>
+                    <a href="support.html" class="bg-white border rounded-lg p-6 text-center hover:bg-gray-50 transition">
+                        <i class="fas fa-headset text-purple-600 text-2xl mb-2"></i>
+                        <p class="font-medium">Get Support</p>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Recent Bookings -->
+            <div class="bg-white rounded-xl shadow mb-8">
+                <div class="p-6 border-b">
+                    <h2 class="text-xl font-bold">Recent Bookings</h2>
+                </div>
+                <div class="p-6">
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                            <tr class="bg-gray-50">
+                                <th class="py-3 px-4 text-left">Service</th>
+                                <th class="py-3 px-4 text-left">Date</th>
+                                <th class="py-3 px-4 text-left">Time</th>
+                                <th class="py-3 px-4 text-left">Status</th>
+                                <th class="py-3 px-4 text-left">Amount</th>
+                                <th class="py-3 px-4 text-left">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody id="recentBookings">
+                            <!-- Bookings will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center mt-6">
+                        <a href="my-bookings.html" class="text-blue-600 hover:underline font-medium">
+                            View All Bookings <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Available Services -->
+            <div>
+                <h2 class="text-xl font-bold mb-4">Available Services</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-xl shadow p-6">
+                        <div class="text-blue-600 text-3xl mb-4">
+                            <i class="fas fa-broom"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2">Home Cleaning</h3>
+                        <p class="text-gray-600 mb-4">Professional deep cleaning for your home</p>
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold">₹200/hr</span>
+                            <a href="book-service.html?service=cleaning" class="text-blue-600 hover:underline">
+                                Book Now <i class="fas fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow p-6">
+                        <div class="text-green-600 text-3xl mb-4">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2">Cooking Service</h3>
+                        <p class="text-gray-600 mb-4">Skilled cooks for daily meals</p>
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold">₹300/hr</span>
+                            <a href="book-service.html?service=cooking" class="text-blue-600 hover:underline">
+                                Book Now <i class="fas fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow p-6">
+                        <div class="text-purple-600 text-3xl mb-4">
+                            <i class="fas fa-baby"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2">Baby Care</h3>
+                        <p class="text-gray-600 mb-4">Professional childcare services</p>
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold">₹250/hr</span>
+                            <a href="book-service.html?service=babycare" class="text-blue-600 hover:underline">
+                                Book Now <i class="fas fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+    // Dashboard functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        // Load user data
+        const userName = localStorage.getItem('userName') || 'User';
+        document.getElementById('userName').textContent = userName;
+        document.getElementById('topUserName').textContent = userName;
+
+        // Mobile menu toggle
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('mobileSidebar').classList.toggle('hidden');
+        });
+
+        // Close mobile sidebar when clicking outside
+        document.getElementById('mobileSidebar').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.add('hidden');
+            }
+        });
+
+        // Populate recent bookings
+        const bookings = [
+            {
+                service: 'Home Cleaning',
+                date: '2024-01-20',
+                time: '10:00 AM',
+                status: 'Completed',
+                amount: '₹800'
+            },
+            {
+                service: 'Cooking Service',
+                date: '2024-01-22',
+                time: '06:00 PM',
+                status: 'Confirmed',
+                amount: '₹600'
+            },
+            {
+                service: 'Baby Care',
+                date: '2024-01-25',
+                time: '09:00 AM',
+                status: 'Pending',
+                amount: '₹1,000'
+            }
+        ];
+
+        const bookingsContainer = document.getElementById('recentBookings');
+        bookings.forEach(booking => {
+            let statusClass = '';
+            switch(booking.status) {
+                case 'Completed':
+                    statusClass = 'bg-green-100 text-green-800';
+                    break;
+                case 'Confirmed':
+                    statusClass = 'bg-blue-100 text-blue-800';
+                    break;
+                case 'Pending':
+                    statusClass = 'bg-yellow-100 text-yellow-800';
+                    break;
+            }
+
+            const row = document.createElement('tr');
+            row.className = 'border-b hover:bg-gray-50';
+            row.innerHTML = `
+                <td class="py-3 px-4">${booking.service}</td>
+                <td class="py-3 px-4">${booking.date}</td>
+                <td class="py-3 px-4">${booking.time}</td>
+                <td class="py-3 px-4">
+                    <span class="px-2 py-1 rounded-full text-xs font-medium ${statusClass}">
+                        ${booking.status}
+                    </span>
+                </td>
+                <td class="py-3 px-4 font-medium">${booking.amount}</td>
+                <td class="py-3 px-4">
+                    <button class="text-blue-600 hover:text-blue-800 text-sm">
+                        View Details
+                    </button>
+                </td>
+            `;
+            bookingsContainer.appendChild(row);
+        });
+
+        // Simulate loading dashboard data
+        setTimeout(() => {
+            // In a real app, you would fetch this data from API
+            document.getElementById('totalBookings').textContent = '15';
+            document.getElementById('completedBookings').textContent = '11';
+            document.getElementById('pendingBookings').textContent = '4';
+            document.getElementById('totalSpent').textContent = '5,800';
+        }, 500);
+    });
+
+    // Check if user is logged in
+    if (!localStorage.getItem('userName')) {
+        // Redirect to login if not logged in
+        window.location.href = 'login.html';
+    }
+
+    // Logout function
+    function logout() {
+        localStorage.clear();
+        window.location.href = 'login.html';
+    }
+
+    // Add logout to sidebar logout button
+    document.querySelectorAll('a[href="index.html"]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            logout();
+        });
+    });
+</script>
+</body>
+</html>

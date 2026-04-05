@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maid Registration - My Maid</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .service-tag {
+            transition: all 0.2s ease;
+        }
+        .service-tag:hover {
+            transform: scale(1.05);
+        }
+        .service-tag.selected {
+            background-color: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+<!-- Navigation -->
+<nav class="bg-white shadow">
+    <div class="container mx-auto px-4 py-3">
+        <a href="index.html" class="text-blue-600 hover:text-blue-800 font-medium">
+            <i class="fas fa-arrow-left mr-2"></i>Back to Home
+        </a>
+    </div>
+</nav>
+
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-3xl mx-auto">
+        <div class="bg-white rounded-2xl shadow-xl p-8">
+            <div class="text-center mb-8">
+                <i class="fas fa-briefcase text-green-600 text-4xl mb-4"></i>
+                <h1 class="text-3xl font-bold text-gray-800">Become a Service Provider</h1>
+                <p class="text-gray-600 mt-2">Join My Maid as a professional service provider</p>
+            </div>
+
+            <form id="maidRegisterForm" class="space-y-8">
+                <!-- Personal Information -->
+                <div class="border-b pb-6">
+                    <h2 class="text-xl font-bold mb-6 text-gray-800">Personal Information</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-gray-700 mb-2 font-medium">
+                                Full Name <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="maidFullName" required
+                                   class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                   placeholder="Enter your full name">
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 mb-2 font-medium">
+                                Mobile Number <span class="text-red-500">*</span>
+                            </label>
+                            <div class="flex">
+                                <span class="bg-gray-100 border border-r-0 rounded-l-lg px-3 py-3">+91</span>
+                                <input type="tel" id="maidMobile" maxlength="10" required
+                                       class="flex-1 border rounded-r-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                       placeholder="9876543210">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <label class="block text-gray-700 mb-2 font-medium">
+                            Email Address
+                        </label>
+                        <input type="email" id="maidEmail"
+                               class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                               placeholder="your@email.com">
+                    </div>
+                </div>
+
+                <!-- Service Information -->
+                <div class="border-b pb-6">
+                    <h2 class="text-xl font-bold mb-6 text-gray-800">Service Information</h2>
+
+                    <div class="mb-6">
+                        <label class="block text-gray-700 mb-3 font-medium">
+                            Select Services You Provide <span class="text-red-500">*</span>
+                        </label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <button type="button" class="service-tag border border-gray-300 rounded-lg py-2 px-3 text-sm hover:bg-gray-50"
+                                    onclick="toggleService(this, 'cleaning')">
+                                <i class="fas fa-broom mr-1"></i> Cleaning
+                            </button>
+                            <button type="button" class="service-tag border border-gray-300 rounded-lg py-2 px-3 text-sm hover:bg-gray-50"
+                                    onclick="toggleService(this, 'cooking')">
+                                <i class="fas fa-utensils mr-1"></i> Cooking
+                            </button>
+                            <button type="button" class="service-tag border border-gray-300 rounded-lg py-2 px-3 text-sm hover:bg-gray-50"
+                                    onclick="toggleService(this, 'babycare')">
+                                <i class="fas fa-baby mr-1"></i> Baby Care
+                            </button>
+                            <button type="button" class="service-tag border border-gray-300 rounded-lg py-2 px-3 text-sm hover:bg-gray-50"
+                                    onclick="toggleService(this, 'eldercare')">
+                                <i class="fas fa-user-nurse mr-1"></i> Elder Care
+                            </button>
+                        </div>
+                        <input type="hidden" id="services" value="">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-gray-700 mb-2 font-medium">
+                                Hourly Rate (₹) <span class="text-red-500">*</span>
+                            </label>
+                            <input type="number" id="hourlyRate" required min="50" max="1000"
+                                   class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                   placeholder="e.g., 200">
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 mb-2 font-medium">
+                                Experience (Years)
+                            </label>
+                            <select id="experience"
+                                    class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="">Select experience</option>
+                                <option value="0-1">0-1 year</option>
+                                <option value="1-3">1-3 years</option>
+                                <option value="3-5">3-5 years</option>
+                                <option value="5+">5+ years</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Address & Availability -->
+                <div class="border-b pb-6">
+                    <h2 class="text-xl font-bold mb-6 text-gray-800">Address & Availability</h2>
+
+                    <div class="mb-6">
+                        <label class="block text-gray-700 mb-2 font-medium">
+                            Address <span class="text-red-500">*</span>
+                        </label>
+                        <textarea id="maidAddress" rows="3" required
+                                  class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                  placeholder="Your complete address"></textarea>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-gray-700 mb-3 font-medium">
+                            Preferred Working Areas
+                        </label>
+                        <input type="text" id="workingAreas"
+                               class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                               placeholder="e.g., South Mumbai, Andheri, Bandra">
+                    </div>
+
+                    <div>
+                        <label class="block text-gray-700 mb-3 font-medium">
+                            Availability
+                        </label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <label class="flex items-center">
+                                <input type="checkbox" name="availability" value="morning" class="mr-2 h-5 w-5 text-blue-600">
+                                <span>Morning</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="availability" value="afternoon" class="mr-2 h-5 w-5 text-blue-600">
+                                <span>Afternoon</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="availability" value="evening" class="mr-2 h-5 w-5 text-blue-600">
+                                <span>Evening</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="availability" value="fulltime" class="mr-2 h-5 w-5 text-blue-600">
+                                <span>Full Time</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Security -->
+                <div>
+                    <h2 class="text-xl font-bold mb-6 text-gray-800">Account Security</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-gray-700 mb-2 font-medium">
+                                Password <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <input type="password" id="maidPassword" required
+                                       class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                       placeholder="Create password">
+                                <button type="button" onclick="togglePassword('maidPassword')"
+                                        class="absolute right-3 top-3 text-gray-400">
+                                    <i class="far fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 mb-2 font-medium">
+                                Confirm Password <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <input type="password" id="maidConfirmPassword" required
+                                       class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                       placeholder="Confirm password">
+                                <button type="button" onclick="togglePassword('maidConfirmPassword')"
+                                        class="absolute right-3 top-3 text-gray-400">
+                                    <i class="far fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <label class="flex items-center">
+                            <input type="checkbox" id="maidTerms" required
+                                   class="mr-2 h-5 w-5 text-blue-600">
+                            <span class="text-gray-700">
+                                    I agree to the <a href="#" class="text-blue-600 hover:underline">Terms of Service</a>
+                                    and <a href="#" class="text-blue-600 hover:underline">Privacy Policy</a>
+                                </span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="mt-8 pt-6 border-t">
+                    <button type="submit"
+                            class="w-full bg-green-600 text-white py-4 rounded-lg font-medium text-lg hover:bg-green-700 transition duration-300">
+                        <i class="fas fa-user-check mr-2"></i> Register as Service Provider
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-8 pt-6 border-t border-gray-200 text-center">
+                <p class="text-gray-600">
+                    Already have an account?
+                    <a href="login.html" class="text-blue-600 font-medium hover:underline">
+                        Login here
+                    </a>
+                </p>
+                <p class="mt-2">
+                    <a href="register.html" class="text-blue-600 hover:underline">
+                        <i class="fas fa-user mr-1"></i> Want to book services? Register as user
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Modal -->
+<div id="loadingModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+    <div class="bg-white p-8 rounded-xl text-center max-w-sm">
+        <i class="fas fa-spinner fa-spin text-green-600 text-4xl mb-4"></i>
+        <p class="text-lg font-medium">Processing your application...</p>
+        <p class="text-gray-600 mt-2">This may take a moment</p>
+    </div>
+</div>
+
+<script>
+    // API Configuration
+    const API_BASE = '/api';
+    let selectedServices = [];
+
+    // Service selection
+    function toggleService(button, service) {
+        button.classList.toggle('selected');
+
+        if (button.classList.contains('selected')) {
+            selectedServices.push(service);
+        } else {
+            const index = selectedServices.indexOf(service);
+            if (index > -1) {
+                selectedServices.splice(index, 1);
+            }
+        }
+
+        document.getElementById('services').value = selectedServices.join(',');
+    }
+
+    // Password visibility toggle
+    function togglePassword(fieldId) {
+        const field = document.getElementById(fieldId);
+        const icon = field.parentElement.querySelector('i');
+
+        if (field.type === 'password') {
+            field.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            field.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+
+    // Form validation
+    function validateForm() {
+        let isValid = true;
+
+        // Basic validation
+        const fullName = document.getElementById('maidFullName').value.trim();
+        const mobile = document.getElementById('maidMobile').value.trim();
+        const address = document.getElementById('maidAddress').value.trim();
+        const password = document.getElementById('maidPassword').value;
+        const confirmPassword = document.getElementById('maidConfirmPassword').value;
+        const services = selectedServices;
+
+        if (!fullName || fullName.length < 2) {
+            showToast('Please enter a valid name', 'error');
+            isValid = false;
+        }
+
+        const mobileRegex = /^[6-9]\d{9}$/;
+        if (!mobileRegex.test(mobile)) {
+            showToast('Please enter a valid 10-digit mobile number', 'error');
+            isValid = false;
+        }
+
+        if (services.length === 0) {
+            showToast('Please select at least one service', 'error');
+            isValid = false;
+        }
+
+        if (!address || address.length < 10) {
+            showToast('Please enter a complete address', 'error');
+            isValid = false;
+        }
+
+        if (password.length < 8) {
+            showToast('Password must be at least 8 characters', 'error');
+            isValid = false;
+        }
+
+        if (password !== confirmPassword) {
+            showToast('Passwords do not match', 'error');
+            isValid = false;
+        }
+
+        if (!document.getElementById('maidTerms').checked) {
+            showToast('Please agree to the terms and conditions', 'error');
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    // Form submission
+    document.getElementById('maidRegisterForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        if (!validateForm()) {
+            return;
+        }
+
+        // Get availability
+        const availability = [];
+        document.querySelectorAll('input[name="availability"]:checked').forEach(checkbox => {
+            availability.push(checkbox.value);
+        });
+
+        // Prepare data
+        const maidData = {
+            fullName: document.getElementById('maidFullName').value.trim(),
+            mobile: document.getElementById('maidMobile').value.trim(),
+            email: document.getElementById('maidEmail').value.trim() || null,
+            services: selectedServices,
+            hourlyRate: parseInt(document.getElementById('hourlyRate').value) || 200,
+            experience: document.getElementById('experience').value,
+            address: document.getElementById('maidAddress').value.trim(),
+            workingAreas: document.getElementById('workingAreas').value.trim(),
+            availability: availability.join(','),
+            password: document.getElementById('maidPassword').value
+        };
+
+        // Show loading
+        document.getElementById('loadingModal').classList.remove('hidden');
+
+        try {
+            console.log('Sending maid registration data:', maidData);
+
+            // NOTE: You need to create this endpoint in Spring Boot
+            // For now, using users endpoint - you should create /api/maids/register
+            const response = await fetch(API_BASE + '/users/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    ...maidData,
+                    role: 'MAID'  // Add role to distinguish
+                })
+            });
+
+            const responseText = await response.text();
+            console.log('Response:', responseText);
+
+            let responseData;
+            try {
+                responseData = JSON.parse(responseText);
+            } catch {
+                responseData = { message: responseText };
+            }
+
+            if (response.ok) {
+                showToast('✅ Registration successful! We will contact you soon.', 'success');
+
+                // Clear form
+                document.getElementById('maidRegisterForm').reset();
+                selectedServices = [];
+                document.querySelectorAll('.service-tag.selected').forEach(tag => {
+                    tag.classList.remove('selected');
+                });
+
+                // Redirect after 3 seconds
+                setTimeout(() => {
+                    window.location.href = 'login.html?message=maid_registration_success';
+                }, 3000);
+
+            } else {
+                const errorMessage = responseData.message ||
+                                    responseData.error ||
+                                    'Registration failed. Please try again.';
+                showToast('❌ ' + errorMessage, 'error');
+            }
+
+        } catch (error) {
+            console.error('Network error:', error);
+            showToast('❌ Network error: ' + error.message, 'error');
+        } finally {
+            // Hide loading
+            document.getElementById('loadingModal').classList.add('hidden');
+        }
+    });
+
+    // Toast notification
+    function showToast(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg ${
+            type === 'success' ? 'bg-green-600' : 'bg-red-600'
+        } text-white`;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.remove();
+        }, 4000);
+    }
+
+    // Auto-format mobile number
+    document.getElementById('maidMobile').addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 10) value = value.slice(0, 10);
+        e.target.value = value;
+    });
+</script>
+</body>
+</html>

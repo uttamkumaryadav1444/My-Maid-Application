@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maid Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .dashboard-card {
+            transition: all 0.3s;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .availability-toggle {
+            transition: all 0.3s;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+<!-- Top Navigation -->
+<nav class="bg-white shadow-lg">
+    <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center h-16">
+            <!-- Logo -->
+            <div class="flex items-center space-x-3">
+                <div class="bg-green-600 text-white w-10 h-10 rounded-lg flex items-center justify-center font-bold text-xl">
+                    MS
+                </div>
+                <div>
+                    <div class="font-bold text-gray-800">MaidService</div>
+                    <div class="text-xs text-gray-500">Provider Dashboard</div>
+                </div>
+            </div>
+
+            <!-- Maid Menu -->
+            <div class="flex items-center space-x-4">
+                <div id="availabilityStatus" class="hidden md:block">
+                    <!-- Availability will be loaded here -->
+                </div>
+                <div class="relative group">
+                    <button class="flex items-center space-x-2">
+                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user-tie text-green-600"></i>
+                        </div>
+                        <span id="maidName" class="font-medium">Provider</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden group-hover:block z-10">
+                        <a href="maid-profile.html" class="block px-4 py-2 hover:bg-gray-100">
+                            <i class="fas fa-user-edit mr-2"></i>Edit Profile
+                        </a>
+                        <a href="change-password.html" class="block px-4 py-2 hover:bg-gray-100">
+                            <i class="fas fa-lock mr-2"></i>Change Password
+                        </a>
+                        <button onclick="logout()" class="block w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container mx-auto px-4 py-8">
+    <!-- Welcome Banner with Availability Toggle -->
+    <div class="bg-gradient-to-r from-green-600 to-emerald-700 rounded-xl p-8 text-white mb-8">
+        <div class="flex flex-col md:flex-row md:items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold mb-2" id="welcomeMessage">Welcome!</h1>
+                <p class="text-green-100" id="serviceTypeText">Service Provider</p>
+            </div>
+            <div class="mt-4 md:mt-0 flex items-center space-x-4">
+                <div id="availabilityToggle" class="availability-toggle">
+                    <!-- Availability toggle will be loaded here -->
+                </div>
+                <button onclick="window.location.href='maid-profile.html'"
+                        class="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-green-50">
+                    <i class="fas fa-edit mr-2"></i>Edit Profile
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="dashboard-card bg-white rounded-xl shadow-md p-6">
+            <div class="flex items-center">
+                <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                    <i class="fas fa-calendar-alt text-blue-600 text-2xl"></i>
+                </div>
+                <div>
+                    <p class="text-gray-600">Total Bookings</p>
+                    <p class="text-3xl font-bold" id="totalBookings">0</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-card bg-white rounded-xl shadow-md p-6">
+            <div class="flex items-center">
+                <div class="bg-green-100 p-3 rounded-lg mr-4">
+                    <i class="fas fa-rupee-sign text-green-600 text-2xl"></i>
+                </div>
+                <div>
+                    <p class="text-gray-600">Total Earnings</p>
+                    <p class="text-3xl font-bold" id="totalEarnings">₹0</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-card bg-white rounded-xl shadow-md p-6">
+            <div class="flex items-center">
+                <div class="bg-yellow-100 p-3 rounded-lg mr-4">
+                    <i class="fas fa-star text-yellow-600 text-2xl"></i>
+                </div>
+                <div>
+                    <p class="text-gray-600">Rating</p>
+                    <p class="text-3xl font-bold" id="rating">4.5</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-card bg-white rounded-xl shadow-md p-6">
+            <div class="flex items-center">
+                <div class="bg-purple-100 p-3 rounded-lg mr-4">
+                    <i class="fas fa-chart-line text-purple-600 text-2xl"></i>
+                </div>
+                <div>
